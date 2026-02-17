@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XALT Vibe Coding Workshop - C-Level Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #63b3ed;
+        }
+
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #63b3ed;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #63b3ed, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .event-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: linear-gradient(45deg, #3182ce, #63b3ed);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.3);
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            background: transparent;
+            color: #63b3ed;
+            border: 2px solid #63b3ed;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .cta-secondary:hover {
+            background: #63b3ed;
+            color: white;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #63b3ed;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a365d;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 3rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a365d;
+        }
+
+        .agenda {
+            background: #f7fafc;
+        }
+
+        .agenda-items {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .agenda-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .agenda-time {
+            font-weight: 600;
+            color: #3182ce;
+            min-width: 120px;
+        }
+
+        .agenda-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a365d;
+        }
+
+        .team {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3182ce, #63b3ed);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a365d;
+        }
+
+        .team-role {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #63b3ed;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: #63b3ed;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .event-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">XALT</div>
+            <nav>
+                <ul class="nav">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#agenda">Agenda</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#register">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Vibe Coding Workshop</h1>
+            <p class="subtitle">C-Level Edition: Strategic Technology Leadership in the Digital Age</p>
+            
+            <div class="event-info">
+                <div class="event-detail">
+                    <span>📅</span>
+                    <span>Coming Soon</span>
+                </div>
+                <div class="event-detail">
+                    <span>📍</span>
+                    <span>Hybrid Event</span>
+                </div>
+                <div class="event-detail">
+                    <span>🎯</span>
+                    <span>C-Level Focus</span>
+                </div>
+            </div>
+
+            <div>
+                <a href="#register" class="cta-primary">Register Now →</a>
+                <a href="#agenda" class="cta-secondary">View Agenda</a>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">C-Level Executives</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1 Day</div>
+                    <div class="stat-label">Intensive Workshop</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Strategic Focus</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">Why Attend</h2>
+            <p class="section-subtitle">Transform your understanding of technology leadership and digital strategy</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Strategic Technology Vision</h3>
+                    <p>Develop a comprehensive understanding of how technology drives business strategy and competitive advantage in today's digital landscape.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Executive Networking</h3>
+                    <p>Connect with fellow C-Level executives and technology leaders. Share challenges, solutions, and build lasting professional relationships.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Innovation Leadership</h3>
+                    <p>Learn how to foster a culture of innovation, manage digital transformation, and stay ahead of technological disruption.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>Data-Driven Decisions</h3>
+                    <p>Master the art of leveraging data and analytics for strategic decision-making and performance optimization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section agenda" id="agenda">
+        <div class="container">
+            <h2 class="section-title">Workshop Agenda</h2>
+            <p class="section-subtitle">A full day of strategic insights, hands-on learning, and executive networking</p>
+            
+            <div class="agenda-items">
+                <div class="agenda-item">
+                    <div class="agenda-time">09:00 - 09:30</div>
+                    <div class="agenda-content">
+                        <h4>Registration & Executive Breakfast</h4>
+                        <p>Welcome coffee and networking with fellow C-Level participants</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">09:30 - 10:30</div>
+                    <div class="agenda-content">
+                        <h4>Opening Keynote: Digital Leadership in 2026</h4>
+                        <p>Strategic technology trends and their business implications</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">10:30 - 11:15</div>
+                    <div class="agenda-content">
+                        <h4>Workshop: Technology Strategy Framework</h4>
+                        <p>Hands-on session building your organization's tech strategy</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">11:15 - 11:30</div>
+                    <div class="agenda-content">
+                        <h4>Coffee Break</h4>
+                        <p>Networking and refreshments</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">11:30 - 12:30</div>
+                    <div class="agenda-content">
+                        <h4>Panel: Digital Transformation Success Stories</h4>
+                        <p>C-Level executives share their transformation journeys</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">12:30 - 13:30</div>
+                    <div class="agenda-content">
+                        <h4>Executive Lunch</h4>
+                        <p>Catered lunch with continued networking opportunities</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">13:30 - 15:00</div>
+                    <div class="agenda-content">
+                        <h4>Interactive Workshop: Innovation Management</h4>
+                        <p>Practical approaches to driving innovation at the executive level</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">15:00 - 15:15</div>
+                    <div class="agenda-content">
+                        <h4>Afternoon Break</h4>
+                        <p>Final networking opportunity</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">15:15 - 16:15</div>
+                    <div class="agenda-content">
+                        <h4>Closing Session: Action Planning</h4>
+                        <p>Develop your personal action plan and next steps</p>
+                    </div>
+                </div>
+                
+                <div class="agenda-item">
+                    <div class="agenda-time">16:15 - 17:00</div>
+                    <div class="agenda-content">
+                        <h4>Closing Remarks & Networking Reception</h4>
+                        <p>Wrap-up and final networking with drinks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="team">
+        <div class="container">
+            <h2 class="section-title">Meet the XALT Team</h2>
+            <p class="section-subtitle">Leading experts in digital transformation and technology strategy</p>
+            
+            <div class="team">
+                <div class="team-member">
+                    <div class="team-avatar">PG</div>
+                    <h3 class="team-name">Philipp Göllner</h3>
+                    <p class="team-role">Founder & CEO</p>
+                    <p class="team-bio">Expert in Enterprise Service Management, Digital Transformation, and C-Level Technology Strategy</p>
+                    <a href="https://meetings.hubspot.com/pgoellner" class="cta-primary">Schedule Meeting</a>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">MR</div>
+                    <h3 class="team-name">Martin Runge</h3>
+                    <p class="team-role">Head of Atlassian Solutions</p>
+                    <p class="team-bio">Specialist in Process Digitization, Service Management, and Enterprise Technology Implementation</p>
+                    <a href="https://meetings.hubspot.com/martin-runge" class="cta-primary">Schedule Meeting</a>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">DG</div>
+                    <h3 class="team-name">Daniel Gottschalk</h3>
+                    <p class="team-role">Head of Sales</p>
+                    <p class="team-bio">Expert in Customer Success, AI Implementation, and Strategic Technology Partnerships</p>
+                    <a href="https://team.xalt.de/meetings/daniel-gottschalk" class="cta-primary">Schedule Meeting</a>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">CR</div>
+                    <h3 class="team-name">Claudia Rothe</h3>
+                    <p class="team-role">Senior Project Manager</p>
+                    <p class="team-bio">Specialist in Process Optimization and Digital Transformation Project Management</p>
+                    <a href="https://team.xalt.de/meetings/claudia-rothe" class="cta-primary">Schedule Meeting</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%); color: white;" id="register">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Ready to Transform Your Technology Leadership?</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Join fellow C-Level executives in this exclusive workshop designed specifically for senior technology leaders.</p>
+            
+            <div style="text-align: center; margin: 3rem 0;">
+                <a href="mailto:info@xalt.de?subject=Vibe%20Coding%20Workshop%20Registration&body=I%20would%20like%20to%20register%20for%20the%20XALT%20Vibe%20Coding%20Workshop%20C-Level%20Edition." class="cta-primary" style="font-size: 1.2rem; padding: 1.2rem 3rem;">Register Now →</a>
+                <p style="margin-top: 1rem; opacity: 0.8;">Limited seats available • Executive-level content • Exclusive networking</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">Enterprise</div>
+                    <div class="stat-label">Level Content</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">Strategic</div>
+                    <div class="stat-label">Focus</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">C-Level</div>
+                    <div class="stat-label">Networking</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>XALT Business Consulting</h4>
+                    <a href="https://xalt.de">xalt.de</a>
+                    <a href="https://xalt.de/atlassian-services">Atlassian Services</a>
+                    <a href="https://xalt.de/kontakt">Contact</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Workshop Info</h4>
+                    <a href="#about">About the Workshop</a>
+                    <a href="#agenda">Full Agenda</a>
+                    <a href="#team">Meet the Team</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <a href="mailto:info@xalt.de">info@xalt.de</a>
+                    <a href="https://linkedin.com/company/xalt-business-consulting">LinkedIn</a>
+                    <a href="https://xalt.de">Website</a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p>&copy; 2026 XALT Business Consulting GmbH. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
