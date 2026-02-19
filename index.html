@@ -1,623 +1,958 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XALT Vibe Coding Workshop - C-Level Edition</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XALT Vibe Coding Workshop – AI-Powered Software Development</title>
+<meta name="description" content="Hands-on Vibe Coding Workshop by XALT. Learn AI-powered development, boost your team's output, and modernize the way you build software.">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAmklEQVR42u2TwQ0DMQgE5+0G/KMP6qEuyqEZqojiOFk5UlKBh4ePZbWcH+ZyuWwcn2OdgTACP/uz+xRB4RhFzMGboMmjLwwtTYomSeZYTVKyY0tpHBSguRTZZda+JE/lV4DTtO44B0URJI39D9DvBoWj+9eqJpHmGDbHd0CS2Otcwv56lkwK1Zrtf2fOgQFStqbpqmN238DlIh5UlD4ndwMXXAAAAABJRU5ErkJggg==" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #081327;
+    --primary2: #30394f;
+    --accent: #01FFCD;
+    --accent2: #2F9C86;
+    --blue: #0052CC;
+    --green: #00875A;
+    --white: #ffffff;
+    --gray100: #f4f5f7;
+    --gray200: #e8ebef;
+    --gray500: #6b778c;
+    --gray700: #344563;
+  }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fff;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+  body {
+    font-family: 'Roboto', -apple-system, sans-serif;
+    color: var(--dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-        .header {
-            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+  /* ===== NAVIGATION ===== */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10, 22, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(78,205,196,0.1);
+    padding: 0 calc(max(40px, (100vw - 1200px) / 2));
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--dark) !important;
+    padding: 8px 22px;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(78,205,196,0.3);
+  }
 
-        .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(13,31,60,0.9) 40%, rgba(10,22,40,0.95) 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 100px calc(max(60px, (100vw - 1200px) / 2)) 80px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(78,205,196,0.1) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,82,204,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .hero-geo {
+    position: absolute;
+    border: 1px solid rgba(78,205,196,0.1);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-geo:nth-child(1) { width: 300px; height: 300px; top: 10%; right: 5%; }
+  .hero-geo:nth-child(2) { width: 200px; height: 200px; top: 20%; right: 10%; }
+  .hero-geo:nth-child(3) { width: 150px; height: 150px; bottom: 15%; right: 30%; border-color: rgba(0,82,204,0.08); }
+  .hero-geo:nth-child(4) { width: 80px; height: 80px; top: 40%; left: 5%; border-color: rgba(78,205,196,0.06); }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #63b3ed;
-        }
+  .hero-content {
+    max-width: 650px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(78,205,196,0.08);
+    border: 1px solid rgba(78,205,196,0.2);
+    border-radius: 30px;
+    padding: 8px 20px;
+    margin-bottom: 28px;
+  }
+  .hero-badge .date-pill {
+    background: var(--accent);
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+  .hero-badge .location {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-weight: 500;
+  }
 
-        .nav {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+  .hero-partner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-partner .xalt-mark {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 3px;
+  }
 
-        .nav a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+  .hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--accent), #7ee8e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .subtitle-big {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.4;
+    margin-bottom: 36px;
+    max-width: 520px;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--dark);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(78,205,196,0.25);
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(78,205,196,0.35);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(78,205,196,0.05);
+  }
 
-        .nav a:hover {
-            color: #63b3ed;
-        }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-stat .number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .hero-stat .label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
 
-        .hero {
-            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
+  .hero-visual {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  .event-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(78,205,196,0.15);
+    border-radius: 20px;
+    padding: 35px;
+    width: 380px;
+    backdrop-filter: blur(10px);
+  }
+  .event-card .ec-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .event-card .ec-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .event-card .ec-details {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .event-card .ec-details li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+  }
+  .event-card .ec-details li:last-child { border-bottom: none; }
+  .event-card .ec-details .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(78,205,196,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .event-card .ec-btn {
+    display: block;
+    text-align: center;
+    background: var(--blue);
+    color: var(--white);
+    padding: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+  .event-card .ec-btn:hover {
+    background: #0065ff;
+    transform: translateY(-1px);
+  }
+  .event-card .ec-free {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 10px;
+  }
 
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #63b3ed, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+  /* ===== SECTION STYLING ===== */
+  section {
+    padding: 100px calc(max(60px, (100vw - 1200px) / 2));
+  }
+  .section-tag {
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 18px;
+    color: var(--gray500);
+    max-width: 600px;
+    line-height: 1.4;
+  }
 
-        .hero .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
+  /* ===== WHY ATTEND / WHAT YOU LEARN ===== */
+  .why-attend {
+    background: var(--gray100);
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 50px;
+  }
+  .why-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 32px 28px;
+    border: 1px solid var(--gray200);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .why-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(10,22,40,0.08);
+    border-color: var(--accent);
+  }
+  .why-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--blue));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .why-card:hover::before { opacity: 1; }
+  .why-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(78,205,196,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .why-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .why-card p {
+    font-size: 15px;
+    color: var(--gray500);
+    line-height: 1.4;
+  }
 
-        .event-info {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
+  /* ===== WHO IS IT FOR ===== */
+  .xalt-section {
+    background: var(--dark);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .xalt-section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(78,205,196,0.06) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .xalt-section .section-title { color: var(--white); font-size: 30px; }
+  .xalt-section .section-subtitle { color: rgba(255,255,255,0.5); }
 
-        .event-detail {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+  .xalt-value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 50px;
+    position: relative;
+    z-index: 2;
+  }
+  .xalt-value-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(78,205,196,0.12);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s;
+  }
+  .xalt-value-card:hover {
+    background: rgba(78,205,196,0.05);
+    border-color: rgba(78,205,196,0.25);
+    transform: translateY(-3px);
+  }
+  .xalt-value-card .num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .xalt-value-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .xalt-value-card p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
 
-        .cta-primary {
-            display: inline-block;
-            background: linear-gradient(45deg, #3182ce, #63b3ed);
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 0.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+  /* ===== AGENDA / FORMAT ===== */
+  .agenda-section {
+    background: var(--white);
+  }
+  .agenda-timeline {
+    max-width: 800px;
+    margin: 50px auto 0;
+  }
+  .agenda-item {
+    display: flex;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray200);
+    align-items: flex-start;
+    transition: background 0.3s;
+  }
+  .agenda-item:hover {
+    background: rgba(78,205,196,0.03);
+    margin: 0 -16px;
+    padding: 20px 16px;
+    border-radius: 8px;
+  }
+  .agenda-time {
+    min-width: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray500);
+    padding-top: 2px;
+  }
+  .agenda-content h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .agenda-content p {
+    font-size: 13px;
+    color: var(--gray500);
+  }
+  .agenda-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+  .tag-keynote { background: rgba(0,82,204,0.1); color: var(--blue); }
+  .tag-break { background: rgba(78,205,196,0.1); color: var(--accent2); }
+  .tag-workshop { background: rgba(0,135,90,0.1); color: var(--green); }
+  .tag-networking { background: rgba(255,153,0,0.1); color: #e68a00; }
+  .tag-xalt { background: rgba(78,205,196,0.15); color: var(--accent2); border: 1px solid rgba(78,205,196,0.3); }
 
-        .cta-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.3);
-        }
+  /* ===== CONTACT ===== */
+  .contact-section {
+    background: var(--gray100);
+  }
+  .contact-card {
+    max-width: 500px;
+    margin-top: 40px;
+    background: var(--white);
+    border: 1px solid var(--gray200);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    transition: all 0.3s;
+  }
+  .contact-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(10,22,40,0.08);
+  }
+  .contact-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+  }
+  .contact-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .contact-info .role {
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .contact-info .contact-detail {
+    font-size: 13px;
+    color: var(--gray500);
+    line-height: 1.6;
+  }
+  .contact-info .contact-detail a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .contact-info .contact-detail a:hover {
+    text-decoration: underline;
+  }
 
-        .cta-secondary {
-            display: inline-block;
-            background: transparent;
-            color: #63b3ed;
-            border: 2px solid #63b3ed;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 0.5rem;
-            transition: all 0.2s;
-        }
+  /* ===== CTA SECTION ===== */
+  .cta-section {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--primary2) 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px calc(max(60px, (100vw - 1200px) / 2));
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(78,205,196,0.08) 0%, transparent 50%);
+    border-radius: 50%;
+  }
+  .cta-section .section-title {
+    color: var(--white);
+    font-size: 35px;
+    max-width: 700px;
+    margin: 0 auto 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-section .section-subtitle {
+    color: rgba(255,255,255,0.5);
+    max-width: 500px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-section .btn-primary {
+    font-size: 17px;
+    padding: 18px 48px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-section .free-note {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 16px;
+    position: relative;
+    z-index: 2;
+  }
 
-        .cta-secondary:hover {
-            background: #63b3ed;
-            color: white;
-        }
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #060e1a;
+    padding: 40px calc(max(60px, (100vw - 1200px) / 2));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
 
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            margin-top: 3rem;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #63b3ed;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .section {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a365d;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin-bottom: 3rem;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .feature {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1a365d;
-        }
-
-        .agenda {
-            background: #f7fafc;
-        }
-
-        .agenda-items {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .agenda-item {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .agenda-time {
-            font-weight: 600;
-            color: #3182ce;
-            min-width: 120px;
-        }
-
-        .agenda-content h4 {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1a365d;
-        }
-
-        .team {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .team-member {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .team-member:hover {
-            transform: translateY(-5px);
-        }
-
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #3182ce, #63b3ed);
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-        }
-
-        .team-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1a365d;
-        }
-
-        .team-role {
-            color: #4a5568;
-            margin-bottom: 1rem;
-        }
-
-        .team-bio {
-            font-size: 0.9rem;
-            color: #718096;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer {
-            background: #1a365d;
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            margin-bottom: 1rem;
-            color: #63b3ed;
-        }
-
-        .footer-section a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section a:hover {
-            color: #63b3ed;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .event-info {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .stats {
-                flex-direction: column;
-                gap: 2rem;
-            }
-
-            .nav {
-                display: none;
-            }
-        }
-    </style>
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .hero-visual { display: none; }
+    .hero { padding: 120px 40px 80px; }
+    .hero h1 { font-size: 44px; }
+  }
+  @media (max-width: 800px) {
+    section { padding: 60px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .hero h1 { font-size: 36px; }
+    .hero .subtitle-big { font-size: 22px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .xalt-value-grid { grid-template-columns: 1fr; }
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .section-title { font-size: 30px; }
+    .cta-section .section-title { font-size: 32px; }
+    .footer { flex-direction: column; gap: 20px; text-align: center; }
+    .contact-card { flex-direction: column; text-align: center; }
+  }
+</style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="logo">XALT</div>
-            <nav>
-                <ul class="nav">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#agenda">Agenda</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#register">Register</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Vibe Coding Workshop</h1>
-            <p class="subtitle">C-Level Edition: Strategic Technology Leadership in the Digital Age</p>
-            
-            <div class="event-info">
-                <div class="event-detail">
-                    <span>📅</span>
-                    <span>Coming Soon</span>
-                </div>
-                <div class="event-detail">
-                    <span>📍</span>
-                    <span>Hybrid Event</span>
-                </div>
-                <div class="event-detail">
-                    <span>🎯</span>
-                    <span>C-Level Focus</span>
-                </div>
-            </div>
+<!-- NAVIGATION -->
+<nav class="nav">
+  <a href="https://xalt.de" class="nav-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 582.94 119.34" width="100" height="22"><g><path fill="#ffffff" d="M85.59,0h24.7V1L69.91,59l41.58,59.67v.69H86.27L55.75,74.5,25.24,119.34H0v-.69L41.44,59,1.19,1V0H25.91L55.75,44.5Z"/><path fill="#ffffff" d="M260.74,96.83H198.35l-10.21,22.51H163.75L217.29,0h24.54l53.52,119.34H270.81ZM229.56,25.06l-22.17,50.8h44.32Z"/><path fill="#ffffff" d="M381,0V98.55H442.4v20.79H358.54V0Z"/><path fill="#ffffff" d="M522.59,20.46H484.75V0h98.19V20.46H545.1v98.88H522.59Z"/></g></svg></a>
+  <div class="nav-links">
+    <a href="#learn">What You'll Learn</a>
+    <a href="#audience">Who It's For</a>
+    <a href="#format">Workshop Format</a>
+    <a href="#contact">Contact</a>
+    <a href="mailto:daniel.gottschalk@xalt.de" class="nav-cta">GET IN TOUCH →</a>
+  </div>
+</nav>
 
-            <div>
-                <a href="#register" class="cta-primary">Register Now →</a>
-                <a href="#agenda" class="cta-secondary">View Agenda</a>
-            </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-geo"></div>
+  <div class="hero-geo"></div>
+  <div class="hero-geo"></div>
+  <div class="hero-geo"></div>
 
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">C-Level Executives</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">1 Day</div>
-                    <div class="stat-label">Intensive Workshop</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Strategic Focus</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="date-pill">4 HOURS · ONLINE</span>
+      <span class="location">🤖 Interactive · Hands-on · English</span>
+    </div>
 
-    <section class="section" id="about">
-        <div class="container">
-            <h2 class="section-title">Why Attend</h2>
-            <p class="section-subtitle">Transform your understanding of technology leadership and digital strategy</p>
-            
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Strategic Technology Vision</h3>
-                    <p>Develop a comprehensive understanding of how technology drives business strategy and competitive advantage in today's digital landscape.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Executive Networking</h3>
-                    <p>Connect with fellow C-Level executives and technology leaders. Share challenges, solutions, and build lasting professional relationships.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Innovation Leadership</h3>
-                    <p>Learn how to foster a culture of innovation, manage digital transformation, and stay ahead of technological disruption.</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="feature-icon">📊</div>
-                    <h3>Data-Driven Decisions</h3>
-                    <p>Master the art of leveraging data and analytics for strategic decision-making and performance optimization.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="hero-partner">
+      <span class="xalt-mark">XALT</span>
+    </div>
 
-    <section class="section agenda" id="agenda">
-        <div class="container">
-            <h2 class="section-title">Workshop Agenda</h2>
-            <p class="section-subtitle">A full day of strategic insights, hands-on learning, and executive networking</p>
-            
-            <div class="agenda-items">
-                <div class="agenda-item">
-                    <div class="agenda-time">09:00 - 09:30</div>
-                    <div class="agenda-content">
-                        <h4>Registration & Executive Breakfast</h4>
-                        <p>Welcome coffee and networking with fellow C-Level participants</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">09:30 - 10:30</div>
-                    <div class="agenda-content">
-                        <h4>Opening Keynote: Digital Leadership in 2026</h4>
-                        <p>Strategic technology trends and their business implications</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">10:30 - 11:15</div>
-                    <div class="agenda-content">
-                        <h4>Workshop: Technology Strategy Framework</h4>
-                        <p>Hands-on session building your organization's tech strategy</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">11:15 - 11:30</div>
-                    <div class="agenda-content">
-                        <h4>Coffee Break</h4>
-                        <p>Networking and refreshments</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">11:30 - 12:30</div>
-                    <div class="agenda-content">
-                        <h4>Panel: Digital Transformation Success Stories</h4>
-                        <p>C-Level executives share their transformation journeys</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">12:30 - 13:30</div>
-                    <div class="agenda-content">
-                        <h4>Executive Lunch</h4>
-                        <p>Catered lunch with continued networking opportunities</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">13:30 - 15:00</div>
-                    <div class="agenda-content">
-                        <h4>Interactive Workshop: Innovation Management</h4>
-                        <p>Practical approaches to driving innovation at the executive level</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">15:00 - 15:15</div>
-                    <div class="agenda-content">
-                        <h4>Afternoon Break</h4>
-                        <p>Final networking opportunity</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">15:15 - 16:15</div>
-                    <div class="agenda-content">
-                        <h4>Closing Session: Action Planning</h4>
-                        <p>Develop your personal action plan and next steps</p>
-                    </div>
-                </div>
-                
-                <div class="agenda-item">
-                    <div class="agenda-time">16:15 - 17:00</div>
-                    <div class="agenda-content">
-                        <h4>Closing Remarks & Networking Reception</h4>
-                        <p>Wrap-up and final networking with drinks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <h1><span class="highlight">Vibe Coding</span><br>Workshop</h1>
+    <div class="subtitle-big">Build software faster with AI.</div>
+    <p>Move away from slow, manual development toward a faster, AI-powered, and collaborative way of working. Try out Vibe Coding in real scenarios and understand what this new technology can do for your organization.</p>
 
-    <section class="section" id="team">
-        <div class="container">
-            <h2 class="section-title">Meet the XALT Team</h2>
-            <p class="section-subtitle">Leading experts in digital transformation and technology strategy</p>
-            
-            <div class="team">
-                <div class="team-member">
-                    <div class="team-avatar">PG</div>
-                    <h3 class="team-name">Philipp Göllner</h3>
-                    <p class="team-role">Founder & CEO</p>
-                    <p class="team-bio">Expert in Enterprise Service Management, Digital Transformation, and C-Level Technology Strategy</p>
-                    <a href="https://meetings.hubspot.com/pgoellner" class="cta-primary">Schedule Meeting</a>
-                </div>
-                
-                <div class="team-member">
-                    <div class="team-avatar">MR</div>
-                    <h3 class="team-name">Martin Runge</h3>
-                    <p class="team-role">Head of Atlassian Solutions</p>
-                    <p class="team-bio">Specialist in Process Digitization, Service Management, and Enterprise Technology Implementation</p>
-                    <a href="https://meetings.hubspot.com/martin-runge" class="cta-primary">Schedule Meeting</a>
-                </div>
-                
-                <div class="team-member">
-                    <div class="team-avatar">DG</div>
-                    <h3 class="team-name">Daniel Gottschalk</h3>
-                    <p class="team-role">Head of Sales</p>
-                    <p class="team-bio">Expert in Customer Success, AI Implementation, and Strategic Technology Partnerships</p>
-                    <a href="https://team.xalt.de/meetings/daniel-gottschalk" class="cta-primary">Schedule Meeting</a>
-                </div>
-                
-                <div class="team-member">
-                    <div class="team-avatar">CR</div>
-                    <h3 class="team-name">Claudia Rothe</h3>
-                    <p class="team-role">Senior Project Manager</p>
-                    <p class="team-bio">Specialist in Process Optimization and Digital Transformation Project Management</p>
-                    <a href="https://team.xalt.de/meetings/claudia-rothe" class="cta-primary">Schedule Meeting</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="hero-buttons">
+      <a href="mailto:daniel.gottschalk@xalt.de?subject=Vibe%20Coding%20Workshop%20Inquiry" class="btn-primary">Book Your Workshop →</a>
+      <a href="#learn" class="btn-secondary">See What You'll Learn</a>
+    </div>
 
-    <section class="section" style="background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%); color: white;" id="register">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">Ready to Transform Your Technology Leadership?</h2>
-            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Join fellow C-Level executives in this exclusive workshop designed specifically for senior technology leaders.</p>
-            
-            <div style="text-align: center; margin: 3rem 0;">
-                <a href="mailto:info@xalt.de?subject=Vibe%20Coding%20Workshop%20Registration&body=I%20would%20like%20to%20register%20for%20the%20XALT%20Vibe%20Coding%20Workshop%20C-Level%20Edition." class="cta-primary" style="font-size: 1.2rem; padding: 1.2rem 3rem;">Register Now →</a>
-                <p style="margin-top: 1rem; opacity: 0.8;">Limited seats available • Executive-level content • Exclusive networking</p>
-            </div>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">Enterprise</div>
-                    <div class="stat-label">Level Content</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">Strategic</div>
-                    <div class="stat-label">Focus</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">C-Level</div>
-                    <div class="stat-label">Networking</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="number">4h</div>
+        <div class="label">Interactive Session</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number">≤12</div>
+        <div class="label">Attendees per Session</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number">100%</div>
+        <div class="label">Hands-on</div>
+      </div>
+    </div>
+  </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>XALT Business Consulting</h4>
-                    <a href="https://xalt.de">xalt.de</a>
-                    <a href="https://xalt.de/atlassian-services">Atlassian Services</a>
-                    <a href="https://xalt.de/kontakt">Contact</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Workshop Info</h4>
-                    <a href="#about">About the Workshop</a>
-                    <a href="#agenda">Full Agenda</a>
-                    <a href="#team">Meet the Team</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Connect With Us</h4>
-                    <a href="mailto:info@xalt.de">info@xalt.de</a>
-                    <a href="https://linkedin.com/company/xalt-business-consulting">LinkedIn</a>
-                    <a href="https://xalt.de">Website</a>
-                </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                <p>&copy; 2026 XALT Business Consulting GmbH. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+  <div class="hero-visual">
+    <div class="event-card">
+      <div class="ec-tag">Workshop Details</div>
+      <div class="ec-title">XALT Vibe Coding<br>Workshop</div>
+      <ul class="ec-details">
+        <li>
+          <div class="icon">⏱️</div>
+          <div>4 hours · Online, interactive</div>
+        </li>
+        <li>
+          <div class="icon">🎓</div>
+          <div>Guided learning, demos &amp; real AI coding exercises</div>
+        </li>
+        <li>
+          <div class="icon">👥</div>
+          <div>Max. 12 attendees for higher engagement</div>
+        </li>
+        <li>
+          <div class="icon">🌐</div>
+          <div>English language</div>
+        </li>
+        <li>
+          <div class="icon">📞</div>
+          <div>Free 30-min scoping call included</div>
+        </li>
+      </ul>
+      <a href="mailto:daniel.gottschalk@xalt.de?subject=Vibe%20Coding%20Workshop%20Inquiry" class="ec-btn">Get in Touch</a>
+      <div class="ec-free">Personalized agenda · Tailored to your team</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU'LL LEARN -->
+<section class="why-attend" id="learn">
+  <div class="section-tag">What You'll Learn</div>
+  <div class="section-title">Theory, Practice &amp; Skills</div>
+  <div class="section-subtitle">A hands-on workshop that combines understanding with real coding exercises.</div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">💡</div>
+      <h3>Why Vibe Coding Matters</h3>
+      <p>Understand how AI is changing the costs and value of software development — and what it means for your business.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <h3>From Executor to Director</h3>
+      <p>Learn how developers move from just executing tickets to designing and directing the work with AI assistance.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🏢</div>
+      <h3>Enterprise Use Cases</h3>
+      <p>See how enterprises use Vibe Coding in real production systems — not just demos, but actual workflows.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <h3>Rethink Estimation &amp; Delivery</h3>
+      <p>Understand how AI is changing how we estimate work, deliver features, and organize team workflows.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🛠️</div>
+      <h3>Hands-on AI Coding</h3>
+      <p>Practice modifying, extending, and debugging real software with AI — task breakdown, verification, and hardening code.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚀</div>
+      <h3>Modern Engineering Practices</h3>
+      <p>Apply modularity, feedback loops, and safe delivery practices. Use AI to accelerate learning in new languages and frameworks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="xalt-section" id="audience">
+  <div class="section-tag">Who This Workshop Is For</div>
+  <div class="section-title" style="max-width:700px;">Built for Leaders &amp;<br>Senior Engineers</div>
+  <div class="section-subtitle">Whether you're making strategic decisions or writing code daily — this workshop meets you where you are.</div>
+
+  <div class="xalt-value-grid">
+    <div class="xalt-value-card">
+      <div class="num">C</div>
+      <h3>Technology Leaders</h3>
+      <p>CTOs, CIOs, and Heads of Engineering seeking clarity on AI's real impact on software development and team productivity.</p>
+    </div>
+    <div class="xalt-value-card">
+      <div class="num">&lt;/&gt;</div>
+      <h3>Senior Engineers &amp; Architects</h3>
+      <p>Experienced developers and architects looking to dramatically increase their output with AI-augmented engineering practices.</p>
+    </div>
+    <div class="xalt-value-card">
+      <div class="num">∞</div>
+      <h3>Tech-Savvy Stakeholders</h3>
+      <p>Product Owners, Product Managers, and Business Stakeholders who want to thrive as software creation evolves into AI-augmented engineering.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHOP FORMAT -->
+<section class="agenda-section" id="format">
+  <div class="section-tag">Workshop Format</div>
+  <div class="section-title">How It Works</div>
+  <div class="section-subtitle">A personalized, interactive format designed for maximum engagement and practical takeaways.</div>
+
+  <div class="agenda-timeline">
+    <div class="agenda-item">
+      <div class="agenda-time">Step 1</div>
+      <div class="agenda-content">
+        <h4>30-Minute Scoping Call</h4>
+        <p>We clarify your goals and put together a personalized agenda and offering tailored to your team.</p>
+        <span class="agenda-tag tag-break">Free</span>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">Part 1</div>
+      <div class="agenda-content">
+        <h4>Understanding the Shift</h4>
+        <p>Why Vibe Coding matters — how AI changes software economics, the developer role, and enterprise workflows.</p>
+        <span class="agenda-tag tag-keynote">Theory</span>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">Part 2</div>
+      <div class="agenda-content">
+        <h4>Live Demos &amp; Real-World Examples</h4>
+        <p>See Vibe Coding in action: enterprise use cases, production systems, and before/after comparisons.</p>
+        <span class="agenda-tag tag-keynote">Demo</span>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">Part 3</div>
+      <div class="agenda-content">
+        <h4>Hands-on Coding Exercises</h4>
+        <p>Practice AI-assisted coding yourself: modifying, extending, and debugging real software with guided support.</p>
+        <span class="agenda-tag tag-workshop">Hands-on</span>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">Part 4</div>
+      <div class="agenda-content">
+        <h4>Modern Engineering for the AI Era</h4>
+        <p>Apply task breakdown, verification, modularity, feedback loops, and safe delivery practices for AI-augmented development.</p>
+        <span class="agenda-tag tag-workshop">Practice</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-tag">Get Started</div>
+  <div class="section-title">Interested? Let's Talk.</div>
+  <div class="section-subtitle">Book a free 30-minute scoping call to discuss your goals and get a personalized workshop agenda.</div>
+
+  <div class="contact-card">
+    <div class="contact-avatar">DG</div>
+    <div class="contact-info">
+      <h3>Daniel Gottschalk</h3>
+      <div class="role">Your Workshop Contact</div>
+      <div class="contact-detail">
+        <a href="mailto:daniel.gottschalk@xalt.de">daniel.gottschalk@xalt.de</a><br>
+        <a href="tel:+498941612424">+49-89-41 61 24 240</a><br>
+        <a href="https://www.xalt.de" target="_blank">www.xalt.de</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-tag" style="color: var(--accent);">Ready to Start?</div>
+  <div class="section-title">Adopt AI safely.<br><span style="background: linear-gradient(135deg, var(--accent), #7ee8e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build software faster.</span></div>
+  <div class="section-subtitle">Get your team up to speed with a hands-on Vibe Coding workshop — personalized for your organization.</div>
+  <a href="mailto:daniel.gottschalk@xalt.de?subject=Vibe%20Coding%20Workshop%20Inquiry" class="btn-primary">Book Your Workshop →</a>
+  <div class="free-note">4 hours · Online · Max. 12 attendees · English</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 582.94 119.34" width="80" height="18"><g><path fill="#ffffff" d="M85.59,0h24.7V1L69.91,59l41.58,59.67v.69H86.27L55.75,74.5,25.24,119.34H0v-.69L41.44,59,1.19,1V0H25.91L55.75,44.5Z"/><path fill="#ffffff" d="M260.74,96.83H198.35l-10.21,22.51H163.75L217.29,0h24.54l53.52,119.34H270.81ZM229.56,25.06l-22.17,50.8h44.32Z"/><path fill="#ffffff" d="M381,0V98.55H442.4v20.79H358.54V0Z"/><path fill="#ffffff" d="M522.59,20.46H484.75V0h98.19V20.46H545.1v98.88H522.59Z"/></g></svg></div>
+  <div class="footer-links">
+    <a href="https://xalt.de">xalt.de</a>
+    <a href="https://xalt.de/atlassian-services">Atlassian Services</a>
+    <a href="https://xalt.de/kontakt">Contact</a>
+    <a href="https://www.xalt.de/impressum/">Impressum</a>
+  </div>
+  <div class="footer-copy">© 2026 XALT Business Consulting GmbH</div>
+</footer>
+
 </body>
 </html>
